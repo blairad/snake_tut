@@ -4,19 +4,27 @@ export default class Snake {
 // creating a scene property and assigning it the scene we passed to the object
         this.lastMoveTime = 0;
         this.moveInterval = 500;
+        this.tileSize = 16;
         this.direction = Phaser.Math.Vector2.RIGHT;
         this.body = []
-
         
-        // this.body.push(
-        //     this.scene.add.rectangle(100,100,16,16, 0xff0000).setOrigin(0)
-        // ); //makes a small box on the screen. head and tail etc at 0 in array from move()
-        
-        
-       
+        this.body.push(
+            this.scene.add.rectangle(100,100,this.tileSize,this.tileSize, 0xff0000).setOrigin(0)
+        ); //makes a small box on the screen. head and tail etc at 0 in array from move()
+        this.apple = this.scene.add
+        .rectangle(0,0,this.tileSize, this.tileSize, 0x00ff00)
+        .setOrigin(0)
+        //this.scene.add.rectangle adds the rectangle shaped apple to the screen
+        this.postionApple();
         scene.input.keyboard.on('keydown', event => {this.keydown(event)})
         // any time we his a key on the keyboard it calls this event and sends the event
     }
+
+    postionApple(){
+        this.apple.x = Math.random() * this.scene.game.config.width;
+        this.apple.y = Math.random() * this.scene.game.config.height;
+    }
+
     keydown(event){
         console.log(event)
         switch(event.keyCode){

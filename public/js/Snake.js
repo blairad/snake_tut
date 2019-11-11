@@ -9,7 +9,13 @@ export default class Snake {
         this.body = []
         
         this.body.push(
-            this.scene.add.rectangle(100,100,this.tileSize,this.tileSize, 0xff0000).setOrigin(0)
+            this.scene.add.
+            rectangle(
+            this.scene.game.config.width / 2,
+            this.scene.game.config.height / 2,
+            this.tileSize,
+            this.tileSize, 
+            0xff0000).setOrigin(0)
         ); //makes a small box on the screen. head and tail etc at 0 in array from move()
         this.apple = this.scene.add
         .rectangle(0,0,this.tileSize, this.tileSize, 0x00ff00)
@@ -21,8 +27,13 @@ export default class Snake {
     }
 
     postionApple(){
-        this.apple.x = Math.random() * this.scene.game.config.width;
-        this.apple.y = Math.random() * this.scene.game.config.height;
+        this.apple.x = 
+        Math.floor
+            (Math.random() * this.scene.game.config.width / this.tileSize) * this.tileSize;
+        this.apple.y = 
+        Math.floor
+            (Math.random() * this.scene.game.config.height / this.tileSize) * this.tileSize;
+    // i want a random numeber between 0 and width/height devided by the tile size (16) that should give a float and the math.floor gives an integer. if we times tha tby 16 we know we'll always get a multiple of 16. this keeps snake and apple on the grid(so right against the side and when pass through each other the same)
     }
 
     keydown(event){

@@ -21,12 +21,12 @@ export default class Snake {
         .rectangle(0,0,this.tileSize, this.tileSize, 0x00ff00)
         .setOrigin(0)
         //this.scene.add.rectangle adds the rectangle shaped apple to the screen
-        this.postionApple();
+        this.positionApple();
         scene.input.keyboard.on('keydown', event => {this.keydown(event)})
         // any time we his a key on the keyboard it calls this event and sends the event
     }
 
-    postionApple(){
+    positionApple(){
         this.apple.x = 
         Math.floor
             (Math.random() * this.scene.game.config.width / this.tileSize) * this.tileSize;
@@ -61,11 +61,24 @@ export default class Snake {
         }
     }
     move(){
+        let x = this.body[0].x + this.direction.x * this.tileSize;
+        let y = this.body[0].y + this.direction.y * this.tileSize;
+
+        if(this.apple.x === x && this.apple.y === y){
+            //eaten the apple
+            this.body.push
+            (this.scene.add
+                .rectangle(0,0, this.tileSize, this.tileSize, 0xffffff).setOrigin(0)
+            );
+            this.positionApple();
+        }
+
         for (let index = this.body.length -1; index >0 ;index--){
             this.body[index].x = this.body[index - 1].x;
             this.body[index].y = this.body[index - 1].y;
+            //this allows the head and tail to follow each other
         }
-        this.body[0].x += this.direction.x * 16;
-        this.body[0].y += this.direction.y * 16;
+        this.body[0].x = x;
+        this.body[0].y = y;
     }
 }

@@ -3,7 +3,7 @@ export default class Snake {
         this.scene = scene;
 // creating a scene property and assigning it the scene we passed to the object
         this.lastMoveTime = 0;
-        this.moveInterval = 500;
+        this.moveInterval = 300;
         this.tileSize = 16;
         this.direction = Phaser.Math.Vector2.RIGHT;
         this.body = []
@@ -80,5 +80,14 @@ export default class Snake {
         }
         this.body[0].x = x;
         this.body[0].y = y;
+
+        if (this.body[0].x < 0 || 
+        this.body[0].x >= this.scene.game.config.width  ||
+        this.body[0].y < 0 || 
+        this.body[0].y >= this.scene.game.config.height )
+        //if snake goes off screen at any point ^ this stuff, then the game will restart thanks to that below
+        {
+            this.scene.scene.restart()
+        }
     }
 }

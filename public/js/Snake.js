@@ -3,7 +3,7 @@ export default class Snake {
         this.scene = scene;
 // creating a scene property and assigning it the scene we passed to the object
         this.lastMoveTime = 0;
-        this.moveInterval = 300;
+        this.moveInterval = 100;
         this.tileSize = 16;
         this.direction = Phaser.Math.Vector2.RIGHT;
         this.body = []
@@ -40,15 +40,19 @@ export default class Snake {
         console.log(event)
         switch(event.keyCode){
             case 37: //left
+                if(this.direction !== Phaser.Math.Vector2.RIGHT)
                 this.direction = Phaser.Math.Vector2.LEFT;
                 break;
             case 38: //up
+                if(this.direction !== Phaser.Math.Vector2.DOWN)
                 this.direction = Phaser.Math.Vector2.UP;
                 break; 
             case 39: //right
+                if(this.direction !== Phaser.Math.Vector2.LEFT)
                 this.direction = Phaser.Math.Vector2.RIGHT;
                 break;
             case 40: // down
+                if(this.direction !== Phaser.Math.Vector2.UP)
                 this.direction = Phaser.Math.Vector2.DOWN;
                 break;    
         }
@@ -68,7 +72,7 @@ export default class Snake {
             //eaten the apple
             this.body.push
             (this.scene.add
-                .rectangle(0,0, this.tileSize, this.tileSize, 0xffffff).setOrigin(0)
+                .rectangle(0,0, this.tileSize, this.tileSize, 0xFF69B4).setOrigin(0)
             );
             this.positionApple();
         }
@@ -89,5 +93,13 @@ export default class Snake {
         {
             this.scene.scene.restart()
         }
+    // death by eating own tail now - head pos === any of our tail positions
+        let tail = this.body.slice(1);
+        if(tail.some(s => s.x === this.body[0].x && s.y === this.body[0].y))
+        //s is section or square of the snake 
+        {
+            this.scene.scene.restart()
+        }
+
     }
 }
